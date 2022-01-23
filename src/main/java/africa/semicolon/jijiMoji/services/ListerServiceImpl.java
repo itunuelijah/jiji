@@ -22,7 +22,10 @@ public class ListerServiceImpl implements ListerService {
         Optional<Lister> optionalLister = listerRepository.findListerByEmail(request.getEmail());
         if(optionalLister.isPresent()) throw new DuplicateEmailException(request.getEmail() + "already exists");
         Lister lister = ModelMapper.map(request);
-        Lister savedLister
+        Lister savedLister = listerRepository.save(lister);
+        RegisterListerResponse response = ModelMapper.map(savedLister);
+        return response;
+
 //        validate user does not exist (email)
             //       find lister by email, if null
             //       create lister from request
